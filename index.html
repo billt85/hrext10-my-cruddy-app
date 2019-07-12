@@ -2,51 +2,77 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>HREXT10 R00lz!</title>
+  <title>Employee List</title>
   <script
-          src="https://code.jquery.com/jquery-3.3.1.js"
-          integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-          crossorigin="anonymous"></script>
+    src="https://code.jquery.com/jquery-3.3.1.js"
+    integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
+    crossorigin="anonymous"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.9.1/underscore-min.js"></script>
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-  <link rel="stylesheet" type="text/css" href="css/style.css">
- </head>
-<body class="m-3">
-  <div class="container">
-    <div class="row mb-3">
-      <div class="input-group col-sm-5">
-        <div class="input-group-prepend">
-          <label class="input-group-text">Key</label>
-        </div>
-        <input class="key form-control" type="text">
-      </div>
-      <div class="input-group col-sm-5">
-        <div class="input-group-prepend">
-          <label class="input-group-text">Value</label>
-        </div>
-        <input class="value form-control" type="text">
-      </div>
-      <button class="reset btn btn-danger btn-sm col-sm-2">Reset Input</button>
-    </div>
-    <div class="row mb-3 justify-content-center">
-      <button class="create btn btn-success btn-sm mr-2 col-sm-2">Create</button>
-      <button class="update btn btn-primary btn-sm mr-2 col-sm-2">Update</button>
-      <button class="delete btn btn-warning btn-sm mr-2 col-sm-2">Delete</button>
-      <button class="clear btn btn-danger btn-sm mr-2 col-sm-3">Clear Database</button>
-    </div>
-    <div class="row">
-      <table class="table table-striped table-hover table-dark">
-        <thead>
-          <tr>
-            <th scope="col">Key</th>
-            <th scope="col">Value</th>
-          </tr>
-        </thead>
-        <tbody>
-        </tbody>
-      </table>
-    </div>
-  </div>
+
+  <link rel="stylesheet" href="http://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+  <script src="http://cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+  <script>
+    $(document).ready(function() {
+      $('#table_id').dataTable({
+          language : {
+            "zeroRecords": " "             
+          },
+          "bPaginate": false,
+          "bLengthChange": false,
+          "bFilter": true,
+          "bInfo": false,
+          "searching": false, 
+          "bAutoWidth": false });
+      });
+  </script>
+  <script>
+    $(".table-content").on("click", ".btn-delete", function() {
+      $(this).closest("tr").remove();
+    });
+
+  </script>
+
   <script src="app/app.js"></script>
+  <link rel="stylesheet" href="css/style.css">
+
+</head>
+<body bgcolor="grey">
+
+<div class="container-main">
+  <header class="pageHeader">Add Employee Info Below</header>
+  <div class="user-input">
+    <input type="text" class="title-input" placeholder="First Name">
+    <input type="text" class="start-input" placeholder="Last Name">
+    <input type="text" class="end-input" placeholder="Status">
+    <input type="text" class="length-input" placeholder="Job Description">
+  </div>
+
+  <div class="user-input2">
+    <button class="btn-add">Create</button>
+    <button class="btn-update">Update</button>
+    <button class="btn-delete">Delete</button>
+    <button class="btn-clear">Clear Database</button>
+  </div>
+  <div class="container-data"></div>
+  <div class="table-div">
+    <table class="table">
+      <table id="table_id" class="display">
+    <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Status</th>
+            <th>Duties</th>
+            <th>Select Item to Delete/Update</th>
+        </tr>
+    </thead>
+    <tbody class="table-content">
+    </tbody>
+</table>
+  </div>
+</div>
+
 </body>
 </html>
