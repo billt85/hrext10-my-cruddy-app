@@ -1,20 +1,57 @@
-/*
-buttons
-table
-  header
-  other rows
-text (font for everything)
-dialog boxes (alert, confirm)
-spacing
-inputs (border swag)
-
-https://getbootstrap.com/docs/4.3/getting-started/introduction/
-*/
-
-th {
-  text-decoration: underline;
+.btn-add {
+	background-color: #4CAF50;
+  	border: 2px solid black;
+  	color: black;
+  	padding: 7px 14px;
+  	font-size: 16px;
+  	cursor: pointer;
 }
 
-label {
-  text-decoration: underline;
+.btn-update {
+	background-color: #008CBA;
+  	border: 2px solid black;
+  	color: black;
+  	padding: 7px 14px;
+  	font-size: 16px;
+  	cursor: pointer;
+}
+
+.btn-delete {
+	background-color: #f44336;
+  	border: 2px solid black;
+  	color: black;
+  	padding: 7px 14px;
+  	font-size: 16px;
+  	cursor: pointer;
+}
+
+.btn-clear {
+	background-color: #f44336;
+  	border: 2px solid black;
+  	color: black;
+  	padding: 7px 14px;
+  	font-size: 16px;
+  	cursor: pointer;
+}
+
+.container-data {
+	margin-top: 30px;
+}
+
+table th, table td {
+    padding: 30px;
+    text-align: left;
+}
+
+.user-input {
+	margin-top: 50px;
+}
+
+.user-input2 {
+    padding: 30px;
+}
+
+.pageHeader {
+  text-align: center;
+  border: 3px solid black;
 }
