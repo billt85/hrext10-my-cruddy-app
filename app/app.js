@@ -1,110 +1,147 @@
 /*
 
  ### Basic Reqs
-- [ ] Where to store data? (localstorage)
-- [ ] How to modify data? (update action, delete action)
+- [x] Where to store data? (localstorage)
+- [x] How to modify data? (update action, delete action)
 
 */
 
 //localStorage functions
-var createItem = function(key, value) {
-  return window.localStorage.setItem(key, value);
-}
+$(document).ready(function(){
 
-var updateItem = function(key, value) {
-  return window.localStorage.setItem(key, value);
-}
+  $('.btn-add').on('click', function(e){
+    
+    var title = $('.title-input').val();
+    var start = $('.start-input').val() || "";
+    var end = $('.end-input').val() || "";
+    var length = $('.length-input').val() || "";
+    
+    if (start !== "" && end !== "" && length === "") {
+      length = findLength(start,end);
+    }
 
-var deleteItem = function(key) {
-  return window.localStorage.removeItem(key);
-}
+    if (start !== "" && end === "" && length !== "") {
+      end = findEnd(start,length);
+    }
 
-var clearDatabase = function() {
-  return window.localStorage.clear();
-}
+    if (start === "" && end !== "" && length !== "") {
+      start = findStart(end,length);
+    }
 
-var showDatabaseContents = function() {
-  $('tbody').html('');
+    var values = title + "|" + start + "|" + end + "|" + length;
 
-  for (var i = 0; i < window.localStorage.length; i++) {
-    var key = window.localStorage.key(i);
-    $('tbody').append(`<tr><td>${key}</td><td>${window.localStorage.getItem(key)}</td></tr>`)
-  }
-}
+    localStorage.setItem(title, values);
 
-var keyExists = function(key) {
-  return window.localStorage.getItem(key) !== null
-}
+    var values = localStorage.getItem(title);
 
-var getKeyInput = function() {
-  return $('.key').val();
-}
+    var splitValues = values.split("|");
+    var storedTitle = splitValues[0];
+    var storedStart = splitValues[1];
+    var storedEnd = splitValues[2];
+    var storedLength = splitValues[3];
 
-var getValueInput = function() {
-  return $('.value').val();
-}
+    var displayText = storedTitle + " | " + 
+                      storedStart + " | " + 
+                      storedEnd   + " | " + 
+                      storedLength;
+    
+    
+    $('.input-key').val('');
+    $('.title-input').val('');
+    $('.start-input').val('');
+    $('.end-input').val('');
+    $('.length-input').val('');
 
-var resetInputs = function() {
-  $('.key').val('');
-  $('.value').val('');
-}
+    $(".table-content").empty();
+    show();
+  });
 
-$(document).ready(function() {
-  showDatabaseContents();
+    $('.btn-update').on('click', function(e){
+    
+    var title = $('.title-input').val();
+    var start = $('.start-input').val() || "";
+    var end = $('.end-input').val() || "";
+    var length = $('.length-input').val() || "";
+    
+    if (start !== "" && end !== "" && length === "") {
+      length = findLength(start,end);
+    }
 
-  $('.create').click(function() {
-    if (getKeyInput() !== '' && getValueInput() !== '') {
-      if (keyExists(getKeyInput())) {
-        if(confirm('key already exists in database, do you want to update instead?')) {
-          updateItem(getKeyInput(), getValueInput());
-          showDatabaseContents();
+    if (start !== "" && end === "" && length !== "") {
+      end = findEnd(start,length);
+    }
+
+    if (start === "" && end !== "" && length !== "") {
+      start = findStart(end,length);
+    }
+
+    var values = title + "|" + start + "|" + end + "|" + length;
+
+    localStorage.setItem(title, values);
+
+    var values = localStorage.getItem(title);
+
+    var splitValues = values.split("|");
+    var storedTitle = splitValues[0];
+    var storedStart = splitValues[1];
+    var storedEnd = splitValues[2];
+    var storedLength = splitValues[3];
+
+    var displayText = storedTitle + " | " + 
+                      storedStart + " | " + 
+                      storedEnd   + " | " + 
+                      storedLength;
+    
+    
+    $('.input-key').val('');
+    $('.title-input').val('');
+    $('.start-input').val('');
+    $('.end-input').val('');
+    $('.length-input').val('');
+
+    $(".table-content").empty();
+    show();
+  });
+
+  $(".btn-delete").click(function(){
+    $("table tbody").find('input[name="record"]').each(function(){
+      if($(this).is(":checked")){
+        $(this).parents("tr").remove();
+      }
+    });
+  });
+
+  $('.btn-clear').click(function(){
+    localStorage.clear();
+    $('.table-content').text('');
+    show();
+  });
+
+  var show = function() {
+    if (localStorage.length !== 0) {
+      for (var key in localStorage) {
+
+        if (key === "length") {
+          break;
         }
-      } else {
-        createItem(getKeyInput(), getValueInput());
-        showDatabaseContents();
-        resetInputs();
-      }
-    } else  {
-      alert('key and value must not be blank');
-    }
-  });
 
-  $('.update').click(function() {
-    if (getKeyInput() !== '' && getValueInput() !== '') {
-      if (keyExists(getKeyInput())) {
-        updateItem(getKeyInput(), getValueInput());
-        showDatabaseContents();
-        resetInputs();
-      } else {
-        alert('key does not exist in database');
-      }
-    } else {
-      alert('key and value must not be blank');
-    }
-  });
+        $(".table-content").append(`<tr class="${key}-row" id="row"><tr>`)
 
-  $('.delete').click(function() {
-     if (getKeyInput() !== '') {
-      if (keyExists(getKeyInput())) {
-        deleteItem(getKeyInput());
-        showDatabaseContents();
-        resetInputs();
-      } else {
-        alert('key does not exist in database');
-      }
-    } else {
-      alert('key must not be blank');
-    }
-  });
+        var splitValues = localStorage.getItem(key).split("|");
+        var storedTitle = splitValues[0];
+        var storedStart = splitValues[1];
+        var storedEnd = splitValues[2];
+        var storedLength = splitValues[3];
 
-  $('.reset').click(function() {
-    resetInputs();
-  })
-
-  $('.clear').click(function() {
-    if (confirm('WARNING: Are you sure you want to clear the database? \n                THIS ACTION CANNOT BE UNDONE')) {
-      clearDatabase();
-      showDatabaseContents();
-    }
-  })
-})
+        $(`.${storedTitle}-row`).append(`<td>${storedTitle}</td>`)
+        $(`.${storedTitle}-row`).append(`<td>${storedStart}</td>`)
+        $(`.${storedTitle}-row`).append(`<td>${storedEnd}</td>`)
+        $(`.${storedTitle}-row`).append(`<td>${storedLength}</td>`)
+        $(`.${storedTitle}-row`).append('<td><input type="checkbox" name="record"></td>')
+       }
+    } 
+  }
+  if (localStorage.length !== 0) {
+    show();
+  }
+});
